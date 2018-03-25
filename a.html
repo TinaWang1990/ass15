@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+// 	$('#get').click(function(){
+// 		console.log("gdfgdf");
+// 		var v_name=$("input[name='name']").val();
+// 		var v_city=$("input[name='city']").val();
+// 		var para="name="+v_name+"&city="+v_city;
+// 		$.get("b.php?"+para, function(data,status){
+// 			alert("Data:"+data+"\nStatus:"+status);
+// 		});
+// 	});
+// });
+
+// $(document).ready(function(){
+// 	$('#post').click(function(){
+// 		console.log("gdfgdf");
+// 		var v_name=$("input[name='name']").val();
+// 		var v_city=$("input[name='city']").val();
+// 		v_name=v_name?v_name:"Sunny";
+// 		v_city=v_city?v_city:"Ottawa";
+// 		$.post("b.php",{name:v_name,city:v_city}, function(data,status){
+// 			alert("Data:"+data+"\nStatus:"+status);
+// 		});
+// 	});
+
+
+// $("input[name='name']").keyup(function(){
+// 	$('#keyup_test').html($("input[name='name']").val());
+// })
+
+$('#ajax').click(function(){
+// 	var name=$("input[name='name']").val();
+// 	var city=$("input[name='city']").val();
+// 	name=name?name:"Sunny";
+// 	city=city?city:"Ottawa";
+// 	$.ajax({
+// 		url:"b.php",
+// 		data:{
+// 			name:name,
+// 			city:city
+// 		},
+// 		type:"POST",
+// 		datatype:"json",
+// 		success: function(data, textStatus, jqXHR){
+// 			obj = JSON.parse(data);
+// 			$('#success').text(obj.name);			
+// 			console.log(obj);
+// 		}
+// 	})
+// /*	.done(function(json){
+// 		console.log(json);
+// 		$('#done').text(json);
+// 	})*/
+
+// 	.fail(function(xhr,status,errorThrow){
+// 		alert("Sorry, there is a problem!");
+// 		console.log("Error:"+errorThrow);
+// 		console.log("Status:"+status);
+// 		console.log(xhr);
+		
+// 	})
+
+// 	.always(function(xhr,status){
+// 		alert("The request is complete!");
+// 	});
+
+// $.getJSON("students.json",function(data){
+// 	for(var i=0;i<data.length;i++){
+// 		console.log(data[i]['stuID']);
+// 	}
+// });
+
+
+
+
+
+
+$.get("b.php",function(data){
+	alert(data);
+});
+
+
+});
+
+
+
+});
+
+
+
+</script>
+
+</head>
+<body>
+<h1>GET METHOD</h1>
+
+	<label>Name:</label>
+	<input type="text" name="name">
+	<label>City:</label>
+	<input type="text" name="city">
+	<button id="get" >get</button>
+	<button id='post'>post</button>
+
+	<p id='keyup_test'></p>
+	<!-- <button onclick="call()">ajax</button> -->
+	<button id="ajax">ajax</button>
+	<p id="success"></p>
+	<p id="done"></p>
+</body>
+</html>
