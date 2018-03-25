@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button#load").click(function(){
+        $("#div1").load("demo_test.html");
+    });
+
+    $("button#load_para").click(function(){
+        //$("#div1").load("demo_test.html #p_1");
+        $("#div1").load("demo_test.html .test");
+    });
+
+    $("button#load_callback").click(function(){
+	    $("#div1").load("demo_test.htmlx", function(responseTxt, statusTxt, xhr){
+	    	setTimeout(function(){
+	    		if(statusTxt == "success")
+		            alert("External content loaded successfully!");
+		      if(statusTxt == "error")
+		            alert("Error: " + xhr.status + ": " + xhr.statusText);
+	    	},100);        
+    	});
+	 });
+
+	$("button#get_method").click(function(){
+        var v_name = $("input[name='name']").val();
+        var v_city = $("input[name='city']").val();
+        var para = "name="+v_name+"&city="+v_city;
+        $.get("demo_get_post.php?"+para, function(data, status){
+            alert("Data: " + data + "\nStatus: " + status);
+            //$('#id').html(data);
+        });
+    });
+
+   	$("button#post_method").click(function(){
+   		var v_name = $("input[name='name']").val();
+   		var v_city = $("input[name='city']").val();
+   		v_name = v_name ? v_name :"SunnyFuture";
+   		v_city = v_city ? v_city :"Ottawa";
+        $.post("demo_get_post.php", 
+        { name: v_name, city: v_city },
+        function(data, status){
+            alert("Data: " + data + "\nStatus: " + status);
+        });
+    });
+
+
+    $("input[name='name']").keyup(function(){
+        $('#keyup_test').html($(this).val());
+    })
+});
+</script>
+</head>
+<body>
+
+<p><script type="text/javascript">document.write(new Date())</script></p>
+ 
+<div id="div1"><h2>Let jQuery AJAX Change This Text</h2></div>
+
+<button id="load">Get External Content</button>
+
+<hr>
+
+<button id="load_para">Get External Content with parameter</button>
+
+<hr>
+
+<button id="load_callback">Get External Content with callback</button>
+
+
+<h1>GET/POST Method</h1>
+
+
+
+<hr>
+
+Name:<input type="text" name="name"><br>
+City:<input type="text" name="city"><br>
+<button id="get_method">Get Method</button>
+<button id="post_method">Post Method</button>
+
+<p id="keyup_test"></p>
+
+</body>
+</html>

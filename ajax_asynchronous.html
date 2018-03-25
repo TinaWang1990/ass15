@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AJAX Features and Usage with JQuery</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		function asyn_withoutCallBack(){
+			var response;
+			$.get("demo_get_post.php",function(res){
+				response = res;
+			});
+			$("input[name='withoutcb']").val(response);
+			console.log(response);
+		}
+
+		function asyn_withCallBack(){
+			$.get("demo_get_post.php",function(res){
+				$("input[name='withcb']").val(res);
+			});
+		}
+
+		function coreajax(){
+			var name = $("input[name='name']").val();
+			var city = $("input[name='city']").val();
+			name = name ? name : "SunnyFuture";
+			city = city ? city : "Ottawa";
+			// Using the core $.ajax() method
+			$.ajax({
+			    // The URL for the request
+			    //url: "demo_get_post.php",
+			 	url: "demo_get_json.php",
+			    // The data to send (will be converted to a query string)
+			    data: {
+			        name: name,
+			        city: city
+			    },
+			 
+			    // Whether this is a POST or GET request
+			    type: "POST",
+			 
+			    // The type of data we expect back
+			    dataType : "json",
+			    success : function(data, textStatus, jqXHR){
+			    	$('#success').text(data.name + " " +data.city);
+			    	console.log(data);
+			    }
+			})
+			// Code to run if the request succeeds (is done);
+			// The response is passed to the function
+			.done(function( json ) {
+			   $( "#done" ).text( json.sentence );
+			})
+			// Code to run if the request fails; the raw request and
+			// status codes are passed to the function
+			.fail(function( xhr, status, errorThrown ) {
+			  alert( "Sorry, there was a problem!" );
+			  console.log( "Error: " + errorThrown );
+			  console.log( "Status: " + status );
+			  console.dir( xhr );
+			})
+			// Code to run regardless of success or failure;
+			.always(function( xhr, status ) {
+			  alert( "The request is complete!" );
+			});
+		}
+
+		function jasonp_callback(json){
+			console.log(json.sites);
+			for (var i=0; i<json.sites.length;i++){
+				var line=json.sites[i]["siteName"] + " " + json.sites[i]["domainName"] + " " +json.sites[i]["description"] +"<br>";
+				$('#jsonp').append(line);
+			}
+				
+		}
+		function findsites(){
+			$.ajax({
+			    url: "https://sunnyfuture.ca/sunnyfuture.json",
+			 
+			    // Tell jQuery we're expecting JSONP
+			    dataType: "jsonp",
+			    jsonpCallback: "jasonp_callback"
+			 
+			});
+		}
+
+
+
+		$(document).ready(function(){
+			
+
+		})
+	</script>
+</head>
+<body>
+	<p>Tips: This file should be placed on server to see the effect.</p>
+	<hr>
+	<div>
+		<p>Understand the concept of "Asynchronos"</p>
+		<h5>GET without callback function</h3>
+		<input type="" name="withoutcb" readonly>
+		<button onclick="asyn_withoutCallBack()">GET</button>
+
+		<h5>GET using callback function</h3>
+		<input type="" name="withcb" readonly>
+		<button onclick="asyn_withCallBack()">GET</button>
+	</div>
+
+	<hr>
+	<div>
+		<p>Usage of core .ajax function</p>
+		<h5>GET without callback function</h3>
+		<label>Name: </label><input type="text" name="name"><br>
+		<label>City: </label><input type="text" name="city"><br>
+		<button onclick="coreajax()">GET</button><br>
+		<label>if success, what to do:</label><p id="success"></p>
+		<label>if request done, what to do:</label><p id="done"></p>
+	</div>
+
+	<hr>
+	<div>
+		<p>Ajax and Forms</p>
+		<h5>1. .serialize() and .serializeArray() functions.</h5>
+		<p>Creates a query string like this: field_1=something&field2=somethingElse</p>
+		<p>
+			Creates a structure like this:
+			[
+			  {
+			    name : "field_1",
+			    value : "something"
+			  },
+			  {
+			    name : "field_2",
+			    value : "somethingElse"
+			  }
+			]
+		</p>
+		<h5>2. client-side validation.</h5>
+		<p>event.preventDefault();</p>
+		<p>var phoneNumberRegex = /^\d*$/<br>
+			phoneNumberRegex.test( inputtedPhoneNumber )
+		</p>
+
+	</div>
+	<hr>
+	<div>
+		<p>Working with JSONP</p>
+		<button onclick="findsites()">More Sites</button>
+		<div id="jsonp"></div><br>
+		More on https://www.sitepoint.com/jsonp-examples/
+	</div>
+
+
+</body>
+</html>
