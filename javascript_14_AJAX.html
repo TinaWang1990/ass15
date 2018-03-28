@@ -1,6 +1,32 @@
 <html>
 <head>
-<script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('#txt').keyup(function(){
+            var str= this.value;
+            if(str.length==0){
+            $('#txtHint').HTML("");
+        }else{
+            var xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function(){
+                if(this.readyState==4&&this.status==200){
+                    $('#txtHint').html(this .responseText);
+                }
+            }
+        };
+        xmlhttp.open("GET", "gethint.php?q="+str,true);
+        xmlhttp.send();
+        
+        });
+            
+        
+    });
+</script>
+
+<!-- <script>
 function showHint(str) {
     if (str.length == 0) { 
         document.getElementById("txtHint").innerHTML = "";
@@ -17,13 +43,13 @@ function showHint(str) {
         xmlhttp.send();
     }
 }
-</script>
+</script> -->
 </head>
 <body>
 
 <p><b>Start typing a name in the input field below:</b></p>
 <form> 
-First name: <input type="text" onkeyup="showHint(this.value)">
+First name: <input type="text"  id="txt">
 </form>
 <p>Suggestions: <span id="txtHint"></span></p>
 </body>
