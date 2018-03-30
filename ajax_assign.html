@@ -27,9 +27,9 @@ $(document).ready(function(){
 	//question 2
 
 // $("input[name='submit']").click(function(){
-// 	var username=$("input[name='username']");
-// 	var pass=$("input[name='password']");
-// 	console.log(username);
+// 	var username=$("input[name='username']").val();
+// 	var pass=$("input[name='password']").val();
+	
 	
 // 	$.post(
 // 		"demo_get_json.php",
@@ -37,8 +37,9 @@ $(document).ready(function(){
 // 			"username":	username,
 // 			"password": pass
 // 		},
-// 		function (data){
-// 			$('#msg').html(data.message);
+// 		function (data, status){
+// 			console.log(data);
+// 			$('#msg').text(data.message);
 // 		},
 // 		"json"
 
@@ -83,7 +84,24 @@ $(document).ready(function(){
 // });
 
 	//question 4
+// $('#select_c').click(function(){
+// 	var ID=$("input[name='sel_p_id']").val();
+// 	var Nmae=$("input[name='sel_p_name']").val();
+// 	$.ajax({
+// 			url:"database.php";
+// 			data:{
+// 				id:ID;
+// 				name:Name;
+// 			}
+// 			type:"POST";
+// 			datatype:"json",
+// 			success: function(data){
+// 				$('#result').text(data.id);
+// 			}
+			
 
+// 		})
+// });
 
 });
 </script>
@@ -152,6 +170,7 @@ $(document).ready(function(){
 		}
 
 		//complete the jquery control for update and delete button.
+
 	})
 
 
