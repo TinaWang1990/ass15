@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ajax Assignment</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	//question 1
+	$("input[name='showHint']").keyup(function(){
+		var str = $(this).val();
+		if(str==""){
+			return;
+		}else{
+			$.get("gethint.php?q=" + str, function(data){
+				console.log(data);
+				$('#txtHint').text(data);
+			});
+		}
+	})
+
+	//question 2
+	function submitNow(){
+      var name = $("input[name='username']").val();
+      var password = $("input[name='password']").val();
+      $.ajax({
+        url:'./test.php',
+        data:{
+          username:name,
+          password:password
+        },
+        type:'POST',
+        dataType:'json',
+        success : function(data){
+          $("#msg").text(data.res);
+        }
+      })
+    }
+    $('form').on('submit',function(e){
+    	e.preventDefault();
+    	var name = $("input[name='username']").val();
+    	var password = $("input[name='password']").val();
+    	if (name != '' && password!=''){
+    		submitNow();
+    	}else{
+    		$("#msg").text("Please double check your input.");
+    	}
+    })
+
+	//question 3
+	$("input[name='s_id']").keyup(function(){
+		var stu_id=$("input[name='s_id']").val();
+		var response_name = "";
+		var response_des = "";
+		$.getJSON("students.json", function(data){
+			console.log(data);
+			for(var i=0; i<data.students.length; i++){
+				if(data.students[i]["stuID"]==stu_id){
+					response_name = data.students[i]["stuName"];
+					response_des = data.students[i]["description"];
+					console.log(response_name);
+					$("input[name='s_name']").val(response_name);
+					$("input[name='s_des']").val(response_des);
+					break;
+				}else{
+					response_name = "Not found.";
+					response_des = "Not found.";
+					$("input[name='s_name']").val(response_name);
+					$("input[name='s_des']").val(response_des);
+				}
+			}
+		});
+	})
+
+	//question 4
+	$(".select button").click(function(){
+		var sel_p_id = $("input[name='sel_p_id']").val();
+		var sel_p_name = $("input[name='sel_p_name']").val();
+		$.post("test.php",
+			{ sel_p_id: sel_p_id, sel_p_name: sel_p_name },
+			function(data, status){
+				$('#result').html(data);
+			});
+	});
+	$(".update button").click(function(){
+		var upd_p_id = $("input[name='upd_p_id']").val();
+		var upd_p_q_orign = $("input[name='upd_p_q_orign']").val();
+		var upd_p_q_cur = $("input[name='upd_p_q_cur']").val();
+		$.post("test.php",
+			{ upd_p_id: upd_p_id, upd_p_q_orign: upd_p_q_orign, upd_p_q_cur: upd_p_q_cur},
+			function(data, status){
+				$('#result').html(data);
+			});				
+	});
+	$(".delete button").click(function(){
+		var del_p_id = $("input[name='del_p_id']").val();
+		$.post("test.php",
+			{ del_p_id: del_p_id },
+			function(data, status){
+				$('#result').html(data);
+			});
+	})
+
+})
+</script>
+</head>
+<body>
+<p>question 1</p>
+<p><b>Start typing a name in the input field below:</b></p>
+<form> 
+First name: <input type="text" name="showHint">
+</form>
+<p>Suggestions: <span id="txtHint"></span></p>
+
+
+<br><br><br>
+<p>question 2</p>
+<form method='POST'>
+	username:
+	<input type="text" name="username">
+ 	<br>
+	password:
+	<input type="password" name="password">
+	<input type="submit" name="submit">
+</form>
+<div id="msg"></div>
+
+
+<br><br><br>
+<p>question 3</p>
+<label>
+	Please input Student ID:
+	<input type="text" name="s_id">
+</label><br>
+<label>
+	Student Name:
+	<input type="text" name="s_name" readonly>
+</label><br>
+<label>
+	Student Description:
+	<input type="text" name="s_des" readonly>
+</label>
+
+
+<br><br><br>
+<p id="q4">question 4</p>
+<style type="text/css">
+.active{
+	display: inline-block;
+}
+.hidden{
+	display: none;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('a').click(function(){
+		var para = $(this).attr('id').substr(0,6);
+		$('.'+para).removeClass('hidden').addClass('active').siblings().removeClass('active').addClass('hidden');
+	})
+
+	$('input').change(function(){
+		//disable select button when input is not filled.
+		if($("input[name='sel_p_id']").val()!=""||$("input[name='sel_p_name']").val()!=""){
+			$(".select button").attr('disabled',false);
+		}else{
+			$(".select button").attr('disabled',true);
+		}
+
+		//complete the jquery control for update and delete button.
+	})
+
+
+})
+</script>
+<div><a id="select_c" href="#q4">Select</a>|<a id="update_c" href="#q4">Update</a>|<a id="delete_c" href="#q4">Delete</a></div>
+<div>
+<div class="select active">
+	Product ID: <input type="text" name="sel_p_id"><br>
+	Product Name:<input type="text" name="sel_p_name"><br>
+	<button disabled>Select</button>
+</div>
+<div class="update hidden">
+	Product ID: <input type="text" name="upd_p_id"><br>
+	Quantity from&nbsp;<input type="number" name="upd_p_q_orign">&nbsp;to&nbsp;<input type="number" name="upd_p_q_cur"><br>
+	<button >Update</button>
+</div>
+<div class="delete hidden">
+	Product ID: <input type="text" name="del_p_id"><br>
+	<button >Delete</button>
+</div>
+</div>
+<br>
+<div id="result">
+	
+</div>
+<br><br><br>
+</body>
+</html>

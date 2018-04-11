@@ -30,7 +30,6 @@ $(document).ready(function(){
 // 	var username=$("input[name='username']").val();
 // 	var pass=$("input[name='password']").val();
 	
-	
 // 	$.post(
 // 		"c.php",
 // 		{
@@ -51,37 +50,42 @@ $(document).ready(function(){
 
 
 	//question 3
-// $("input[name='s_id']").on('change',function(){
-// 	var id=$("input[name='s_id']").val();
-// 	var arr= new Array();
+$("input[name='s_id']").on('change',function(){
+	var id=$("input[name='s_id']").val();
+	var arr= new Array();
 	
 
-// 	$.getJSON("students.json", function(data){
+	$.getJSON("students.json", function(data){
 
-// 		for(var i=0; i<data.students.length;i++){
-// 			arr[i]=data.students[i]['stuID'];
+		for(var i=0; i<data.students.length;i++){
+			arr[i]=data.students[i]['stuID'];
 			
-// 			// arr.push(data.students[i]['stuID']);
+			// arr.push(data.students[i]['stuID']);
 			
-// 			if(id==data.students[i]['stuID']){
-// 				var name=data.students[i]['stuName'];
-// 				var des=data.students[i]['description'];
-// 				$("input[name='s_name']").val(name);
-// 				$("input[name='s_des']").val(des);
+			if(id==data.students[i]['stuID']){
+				var name=data.students[i]['stuName'];
+				var des=data.students[i]['description'];
+				$("input[name='s_name']").val(name);
+				$("input[name='s_des']").val(des);
+				break;
+			}else{
+				name="Not Found.";
+				des="Not Found";
+				$("input[name='s_name']").val(name);
+				$("input[name='s_des']").val(des);
+			}
+		}
 
-// 			}
-// 		}
-
-// 		// var result=$.inArray("id",arr);
-// 		// 	console.log(result);
-// 	});
-// 		// var str=arr.toString();
-// 		// console.log(str.indexOf(id));
-// 		if (result==-1){
-// 			alert("The student is not exist.");
-// 		}
+		// var result=$.inArray("id",arr);
+		// 	console.log(result);
+	});
+		// var str=arr.toString();
+		// console.log(str.indexOf(id));
+		// if (result==-1){
+		// 	alert("The student is not exist.");
+		// }
 	
-// });
+});
 
 	//question 4
 // $('#select_c').click(function(){
