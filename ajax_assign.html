@@ -50,62 +50,73 @@ $(document).ready(function(){
 
 
 	//question 3
-$("input[name='s_id']").on('change',function(){
-	var id=$("input[name='s_id']").val();
-	var arr= new Array();
+// $("input[name='s_id']").on('change',function(){
+// 	var id=$("input[name='s_id']").val();
+// 	var arr= new Array();
 	
 
-	$.getJSON("students.json", function(data){
+// 	$.getJSON("students.json", function(data){
 
-		for(var i=0; i<data.students.length;i++){
-			arr[i]=data.students[i]['stuID'];
+// 		for(var i=0; i<data.students.length;i++){
+// 			arr[i]=data.students[i]['stuID'];
 			
-			// arr.push(data.students[i]['stuID']);
+// 			// arr.push(data.students[i]['stuID']);
 			
-			if(id==data.students[i]['stuID']){
-				var name=data.students[i]['stuName'];
-				var des=data.students[i]['description'];
-				$("input[name='s_name']").val(name);
-				$("input[name='s_des']").val(des);
-				break;
-			}else{
-				name="Not Found.";
-				des="Not Found";
-				$("input[name='s_name']").val(name);
-				$("input[name='s_des']").val(des);
-			}
-		}
+// 			if(id==data.students[i]['stuID']){
+// 				var name=data.students[i]['stuName'];
+// 				var des=data.students[i]['description'];
+// 				$("input[name='s_name']").val(name);
+// 				$("input[name='s_des']").val(des);
+// 				break;
+// 			}else{
+// 				name="Not Found.";
+// 				des="Not Found";
+// 				$("input[name='s_name']").val(name);
+// 				$("input[name='s_des']").val(des);
+// 			}
+// 		}
 
-		// var result=$.inArray("id",arr);
-		// 	console.log(result);
-	});
-		// var str=arr.toString();
-		// console.log(str.indexOf(id));
-		// if (result==-1){
-		// 	alert("The student is not exist.");
-		// }
+// 		// var result=$.inArray("id",arr);
+// 		// 	console.log(result);
+// 	});
+// 		// var str=arr.toString();
+// 		// console.log(str.indexOf(id));
+// 		// if (result==-1){
+// 		// 	alert("The student is not exist.");
+// 		// }
 	
-});
+// });
 
 	//question 4
-// $('#select_c').click(function(){
-// 	var ID=$("input[name='sel_p_id']").val();
-// 	var Nmae=$("input[name='sel_p_name']").val();
-// 	$.ajax({
-// 			url:"database.php";
-// 			data:{
-// 				id:ID;
-// 				name:Name;
-// 			}
-// 			type:"POST";
-// 			datatype:"json",
-// 			success: function(data){
-// 				$('#result').text(data.id);
-// 			}
-			
+	$(".select button").click(function(){
+		var select_id=$("input[name='sel_p_id']").val();
+		var select_name=$("input[name='sel_p_name']").val();
+		$.post("database.php",
+			{select_id:select_id, select_name:select_name},
+			function(data, status){
+				$('#result').html(data);
+			});		
+	});
+	$(".update button").click(function(){
+		var update_id=$("input[name='upd_p_id']").val();
+		var update_origin=$("input[name='upd_p_q_orign']").val();
+		var update_cur=$("input[name='upd_p_q_cur']").val();
+		$.post("database.php",
+			{update_id:update_id, update_origin:update_origin, update_cur:update_cur},
+			function(data, status){
+				$('#result').html(data);
+			});		
+	});
+	$(".delete button").click(function(){
+		var delete_id=$("input[name='del_p_id']").val();
+		$.post("database.php",
+			{delete_id:delete_id},
+			function(data, status){
+				$('#result').html(data);
+			});		
+	});
 
-// 		})
-// });
+
 
 });
 </script>
